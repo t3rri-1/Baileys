@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://cdn-ichigo.web.id/i/qo6FVYxPqL.jpg" alt="ichigokurosaki-baileys banner" width="100%" />
+<img src="https://h.uguu.se/glPqTFCcrFgw.jpeg" alt="T3-baileys banner" width="100%" />
 
 ### Modded Baileys — Interactive Messages, AI Rich Responses, Albums & More
 
