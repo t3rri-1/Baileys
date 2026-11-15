@@ -4,8 +4,7 @@
 
 ### Modded Baileys — Interactive Messages, AI Rich Responses, Albums & More
 
-[![npm version](https://img.shields.io/npm/v/t3-baileys?color=CB3837&logo=npm&logoColor=white&style=for-the-badge)](https://www.npmjs.com/package/t3-baileys)
-[![npm downloads](https://img.shields.io/npm/dm/t3-baileys?color=CB3837&logo=npm&logoColor=white&style=for-the-badge)](https://www.npmjs.com/package/t3-baileys)
+[![version](https://img.shields.io/github/v/tag/t3rri-1/Baileys?color=CB3837&logo=github&logoColor=white&style=for-the-badge)](https://github.com/t3rri-1/Baileys/tags)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.0.0-339933?logo=node.js&logoColor=white&style=for-the-badge)](https://nodejs.org)
 [![ESM](https://img.shields.io/badge/ESM-only-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge)](#)
@@ -16,13 +15,19 @@
 with native support for interactive messages, album messages, unified rich responses, newsletter helpers, status mentions, and additional business/community utilities.
 
 This repository is a **distribution/build repo** for `Baileys`.
-It ships compiled runtime files in `lib/` and protobuf artifacts in `WAProto/`, and is intended to be consumed directly from npm or as a vendored dependency inside the **T3bot** ecosystem.
+It ships compiled runtime files in `lib/` and protobuf artifacts in `WAProto/`, and is intended to be installed from the GitHub tag tarball (it is not uploaded to npm) or used as a vendored dependency inside the **T3bot** ecosystem.
 
 </div>
 
 ---
 
 ## 🆕 Changelog / Updates
+
+**v1.1.15**
+- New `wrapToBotForwardedMessage(richResponseMessage)` (with `botMetadataSignature()` and `botMetadataCertificate()`) in `message_builder.js`: wraps a `richResponseMessage` in `botForwardedMessage` with `botMetadata.verificationMetadata.proofs` (ported from Baileys 0.4.2).
+- New sticker annotation in `message_builder.js`: `attachAssetStickerToMessage()`, `attachMenuSticker()`, `getAssetSticker()` and `STICKER_ANNOTATION` attach a sticker to a message through `messageContextInfo.messageAssociation`.
+- Install from the GitHub tag tarball (not uploaded to npm); see [Installation](#-installation).
+- Existing `sendMessage` / `relayMessage` output is unchanged.
 
 **v1.1.14**
 - `sendMetaStep` fix: v1.1.13 showed a plain forwarded text without "View details". The message is now a `richResponseMessage` wrapped in `botForwardedMessage` (Meta AI reply format), and step edits are wrapped the same way.
@@ -70,7 +75,7 @@ It ships compiled runtime files in `lib/` and protobuf artifacts in `WAProto/`, 
   - [✅ Requirements](#-requirements)
   - [🗂️ What’s Inside This Repo](#-whats-inside-this-repo)
   - [📦 Installation](#-installation)
-    - [From NPM](#from-npm)
+    - [From GitHub](#from-github)
     - [Using Alias (Recommended for T3bot Bots)](#using-alias-recommended-for-T3bot-bots)
   - [🛠️ Quick Start](#️-quick-start)
     - [1. Project Setup](#1-project-setup)
@@ -171,11 +176,15 @@ If you are documenting or integrating this project, treat `lib/index.js` and `li
 
 ## 📦 Installation
 
-### From NPM
+`t3-baileys` is **not uploaded to npm**. Install it from the GitHub tag tarball.
+
+### From GitHub
 
 ```bash
-npm install t3-baileys
+npm install https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz
 ```
+
+This installs the package as `t3-baileys`, so `import ... from "t3-baileys"` works as in the examples below.
 
 Recommended companion packages for examples in this README:
 
@@ -185,12 +194,14 @@ npm install pino qrcode-terminal
 
 ### Using Alias (Recommended for T3bot Bots)
 
-Add to `package.json`:
+Add to `package.json` (the tarball URL is the same for every alias):
 
 ```json
 {
   "dependencies": {
-    "t3": "npm:t3-baileys@latest"
+    "baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz",
+    "T3": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz",
+    "@whiskeysockets/baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz"
   }
 }
 ```
@@ -202,7 +213,10 @@ npm install
 ```
 
 > [!TIP]
-> Using the alias `t3` allows you to `import t3 from 't3'` without changing existing code.
+> The name you import is the dependency key, so `import ... from 'baileys'`, `'T3'` and `'@whiskeysockets/baileys'` all work without changing existing code. Keep only the aliases you need: every alias is installed as its own copy.
+
+> [!NOTE]
+> To update, change the tag in the URL (for example `v1.1.16`) and run `npm install` again.
 
 > [!NOTE]
 > Peer dependencies such as `sharp`, `jimp`, `audio-decode`, and `link-preview-js` are optional. Install only what your bot features need.
@@ -225,7 +239,7 @@ Ensure `package.json` has `"type": "module"`:
   "name": "my-bot",
   "type": "module",
   "dependencies": {
-    "t3": "npm:t3-baileys@latest"
+    "t3-baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz"
   }
 }
 ```
@@ -236,7 +250,7 @@ Ensure `package.json` has `"type": "module"`:
 ### 2. Install Dependencies
 
 ```bash
-npm install t3-baileys pino qrcode-terminal
+npm install pino qrcode-terminal
 ```
 
 ### 3. Create `index.js`

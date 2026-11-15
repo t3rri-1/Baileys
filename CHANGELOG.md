@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.15]
+- New `wrapToBotForwardedMessage(richResponseMessage)` in `message_builder.js`, with `botMetadataSignature()` and `botMetadataCertificate(length)`: wraps a `richResponseMessage` in `botForwardedMessage` and adds `botMetadata.verificationMetadata.proofs` (Meta AI reply format). Ported from Baileys 0.4.2. It is a standalone helper: `AIRich` and `sendMetaStep` messages are built as before.
+- New sticker annotation in `message_builder.js`: `attachAssetStickerToMessage(sock, m, assetKey, meta)` sends a sticker attached to message `m` through `messageContextInfo.messageAssociation` (`STICKER_ANNOTATION` = `proto.MessageAssociation.AssociationType.STICKER_ANNOTATION`, 11). Also exported: `attachMenuSticker(sock, m, botConfig)` (asset `t32`, off with `MENU_STICKER_REPLY=false`) and `getAssetSticker(assetKey, meta)`.
+  - The image is a Buffer, a file path or an asset key read from `./media/<key>.(jpg|jpeg|png|webp)` (`meta.dir` or `STICKER_ASSET_DIR` changes the folder).
+  - The 512x512 webp sticker (with pack name / author) is built with `sharp`. Pack name / author come from `meta`, then `STICKER_PACK` (`"pack;author"`). The sticker is static.
+  - The sticker is cached (rebuilt when the image or the pack info changes) and the upload is cached for 30 minutes per socket. It never throws: it returns `false` and logs `[StickerAnnotation]`.
+- Install from the GitHub tag tarball (`https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz`) with the `baileys`, `T3` and `@whiskeysockets/baileys` aliases. The package is not uploaded to npm. README installation section updated.
+- Existing `sendMessage` / `relayMessage` output is unchanged.
+
 ## [1.1.14]
 - `sendMetaStep` fix: v1.1.13 showed a plain forwarded text without "View details". The message body is now a `richResponseMessage` wrapped in `botForwardedMessage` (Meta AI reply format), plus `botMetadata.progressIndicatorMetadata`.
 - Step edits are sent with `relayMessage` as a `botForwardedMessage` > `protocolMessage` (`MESSAGE_EDIT`), the same way as richMessage edits.
