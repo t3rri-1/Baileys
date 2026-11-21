@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.16]
+- `message_builder.js` now includes the **baileys-mbuilder** additions. Everything is exported from the package root (`import { MessageBuilder, sendHtmlApp, ... } from 'baileys'`) and attached as statics on `AIRich`, `ORich`, `Button`, `ButtonV2`, `Carousel` and `Toolkit`. New modules in `lib/Modded/`:
+  - `extras.js`: AI Rich section helpers, `sendHtmlApp`, `sendHtmlArtifact`, `sendA2UI`, `sendBloksWidget`, `buildDefaultBizNodes`.
+  - `a2ui.js`: the `A2UI` widget builder and `sendA2UIWidget`.
+  - `metaai.js`: Meta AI primitives and `forwardRichResponse` (forwards a received Meta AI answer).
+  - `bot-signature.js`: `verifyBotSignature`, `isParsableCertificateChain` and related helpers.
+  - `html-app.js`: `checkHtmlApp` (validates an HTML app before it is sent).
+- New `AIRich` methods: `addMap`, `addWidget`, `addFooterSection`, `clearFooterSections`, `addEmbeddedScreen`, `setBotMetadata`, `setResponseMeta`, `isSignaturePreserved`. `addSection(section, { text, submessage })` can now pair the section with a submessage. New statics: `isMetaSignature`, `wrapRichResponse`, `normalizeSection`, `DEFAULT_BOT_JID`, `LAYOUT_FIELDS`.
+- Deeplinks: `[text](>https://...)` in `addText` / `addTable` creates a `GenAIDeeplinkItem` entity (`deeplink: false` turns it off).
+- `AIRich.loadFrom` keeps a genuine Meta signature and its signed bytes while the content is untouched; any edit drops it.
+- New `build` / `send` options: `forwardWrapper: false` (send the `richResponseMessage` without `botForwardedMessage`), `botJid`, `disclaimerText` (default unchanged) and `verification`. `'auto'` / `'omit'` leave the proof out; `'placeholder'` sends it and logs a one-time warning; the default is unchanged (the placeholder proof is still sent). The built message has `aiVerification` (`'legacy'`, `'placeholder'`, `'omitted'` or `'preserved'`).
+- `AIRich.send` now also sends `additionalNodes` (and `forwardWrapper`) with the bypass edit. The `RichListItem` / `MultipleResponse` layouts use their own view_model fields (`text_content` / `responses`).
+- No new dependencies. Install from the GitHub tag tarball (`https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.16.tar.gz`) with the `baileys`, `T3` and `@whiskeysockets/baileys` aliases. The package is not uploaded to npm.
+- Existing `sendMessage` / `relayMessage` output is unchanged.
+
 ## [1.1.15]
 - New `wrapToBotForwardedMessage(richResponseMessage)` in `message_builder.js`, with `botMetadataSignature()` and `botMetadataCertificate(length)`: wraps a `richResponseMessage` in `botForwardedMessage` and adds `botMetadata.verificationMetadata.proofs` (Meta AI reply format). Ported from Baileys 0.4.2. It is a standalone helper: `AIRich` and `sendMetaStep` messages are built as before.
 - New sticker annotation in `message_builder.js`: `attachAssetStickerToMessage(sock, m, assetKey, meta)` sends a sticker attached to message `m` through `messageContextInfo.messageAssociation` (`STICKER_ANNOTATION` = `proto.MessageAssociation.AssociationType.STICKER_ANNOTATION`, 11). Also exported: `attachMenuSticker(sock, m, botConfig)` (asset `t32`, off with `MENU_STICKER_REPLY=false`) and `getAssetSticker(assetKey, meta)`.

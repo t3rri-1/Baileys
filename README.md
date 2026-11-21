@@ -23,6 +23,12 @@ It ships compiled runtime files in `lib/` and protobuf artifacts in `WAProto/`, 
 
 ## 🆕 Changelog / Updates
 
+**v1.1.16**
+- `message_builder.js` now includes the baileys-mbuilder additions. New modules in `lib/Modded/`: `extras.js`, `a2ui.js`, `metaai.js`, `bot-signature.js`, `html-app.js` (HTML apps, A2UI / Bloks widgets, Meta AI maps and widgets, signature helpers). Everything is exported from the package root and attached to `AIRich`, `Button`, `ButtonV2`, `Carousel` and `Toolkit`.
+- New `AIRich` methods: `addMap`, `addWidget`, `addFooterSection`, `addEmbeddedScreen`, `setBotMetadata`, `setResponseMeta`. New `[text](>url)` deeplinks in `addText` / `addTable`. New `build` / `send` options: `forwardWrapper`, `botJid`, `disclaimerText`, `verification`.
+- Install from the GitHub tag tarball (not uploaded to npm); see [Installation](#-installation).
+- Existing `sendMessage` / `relayMessage` output is unchanged.
+
 **v1.1.15**
 - New `wrapToBotForwardedMessage(richResponseMessage)` (with `botMetadataSignature()` and `botMetadataCertificate()`) in `message_builder.js`: wraps a `richResponseMessage` in `botForwardedMessage` with `botMetadata.verificationMetadata.proofs` (ported from Baileys 0.4.2).
 - New sticker annotation in `message_builder.js`: `attachAssetStickerToMessage()`, `attachMenuSticker()`, `getAssetSticker()` and `STICKER_ANNOTATION` attach a sticker to a message through `messageContextInfo.messageAssociation`.
@@ -181,7 +187,7 @@ If you are documenting or integrating this project, treat `lib/index.js` and `li
 ### From GitHub
 
 ```bash
-npm install https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz
+npm install https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.16.tar.gz
 ```
 
 This installs the package as `t3-baileys`, so `import ... from "t3-baileys"` works as in the examples below.
@@ -199,9 +205,9 @@ Add to `package.json` (the tarball URL is the same for every alias):
 ```json
 {
   "dependencies": {
-    "baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz",
-    "T3": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz",
-    "@whiskeysockets/baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz"
+    "baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.16.tar.gz",
+    "T3": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.16.tar.gz",
+    "@whiskeysockets/baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.16.tar.gz"
   }
 }
 ```
@@ -216,7 +222,7 @@ npm install
 > The name you import is the dependency key, so `import ... from 'baileys'`, `'T3'` and `'@whiskeysockets/baileys'` all work without changing existing code. Keep only the aliases you need: every alias is installed as its own copy.
 
 > [!NOTE]
-> To update, change the tag in the URL (for example `v1.1.16`) and run `npm install` again.
+> To update, change the tag in the URL (for example `v1.1.17`) and run `npm install` again.
 
 > [!NOTE]
 > Peer dependencies such as `sharp`, `jimp`, `audio-decode`, and `link-preview-js` are optional. Install only what your bot features need.
@@ -239,7 +245,7 @@ Ensure `package.json` has `"type": "module"`:
   "name": "my-bot",
   "type": "module",
   "dependencies": {
-    "t3-baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.15.tar.gz"
+    "t3-baileys": "https://github.com/t3rri-1/Baileys/archive/refs/tags/v1.1.16.tar.gz"
   }
 }
 ```
